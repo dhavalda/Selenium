@@ -1,0 +1,763 @@
+<!-- Cisco QTI DTD -->
+
+<!-- Last Changed:  25 February 2016
+Version:  v2p13p0 -->
+
+<!ELEMENT questestinterop (qticomment?, (assessment+ | activationgroup+ | availabilitygroup+ | (section | item | testlet)+)) >
+
+<!-- IMS Entities -->
+<!ENTITY % I_Case " case  (Yes | No )  'No'">
+<!ENTITY % I_CharSet " charset CDATA  'ascii-us'">
+<!ENTITY % I_Continue " continue  (Yes | No )  'No'">
+<!ENTITY % I_Embedded " embedded CDATA  'base64'">
+<!ENTITY % I_FeedbackStyle " feedbackstyle  (Complete | Incremental | Multilevel | Proprietary )  'Complete'">
+<!ENTITY % I_FeedbackSwitch " feedbackswitch  (Yes | No )  'Yes'">
+<!ENTITY % I_Height " height CDATA  #IMPLIED">
+<!ENTITY % I_HintSwitch " hintswitch  (Yes | No )  'Yes'">
+<!ENTITY % I_Ident " ident CDATA  #REQUIRED">
+<!ENTITY % I_Label " label CDATA  #IMPLIED">
+<!ENTITY % I_LinkRefId " linkrefid CDATA  #REQUIRED">
+<!ENTITY % I_ObjectAtts "oid CDATA #REQUIRED">
+<!ENTITY % I_RefAtts "refid CDATA #IMPLIED">
+<!ENTITY % I_MaxNumber " maxnumber CDATA  #IMPLIED">
+<!ENTITY % I_MinNumber " minnumber CDATA  #IMPLIED">
+<!ENTITY % I_Rcardinality " rcardinality  (Single | Multiple | Ordered )  'Single'">
+<!ENTITY % I_RespIdent " respident CDATA  #REQUIRED">
+<!ENTITY % I_Rtiming " rtiming  (Yes | No )  'No'">
+<!ENTITY % I_ScoreModel " scoremodel CDATA  'SumofScores'">
+<!ENTITY % I_SolutionSwitch " solutionswitch  (Yes | No )  'Yes'">
+<!ENTITY % I_Title " title CDATA  #IMPLIED">
+<!ENTITY % I_Uri " uri CDATA  #IMPLIED">
+<!ENTITY % I_VarName " varname CDATA  #REQUIRED">
+<!ENTITY % I_View " view  (All |  Administrator | AdminAuthority | Assessor | Author | Candidate | InvigilatorProctor | Psychometrician | Scorer | Tutor )  'All'">
+<!ENTITY % I_Width " width CDATA  #IMPLIED">
+<!ENTITY % I_X0 " x0 CDATA  #IMPLIED">
+<!ENTITY % I_Y0 " y0 CDATA  #IMPLIED">
+<!ENTITY % special "br">
+<!ENTITY % fontstyle "i | b | u">
+<!ENTITY % phrase "em | strong | code | sup | sub">
+<!ENTITY % charstyle "(#PCDATA | linkobject | %fontstyle; | %phrase;)*">
+<!ENTITY % lists "ul | ol | dl">
+<!ENTITY % blocktext "hr | blockquote">
+<!ENTITY % html "p | %special; | %fontstyle; | %phrase; | %lists; | %blocktext;">
+<!ENTITY % htmltext "(#PCDATA | %html;)*">
+<!ENTITY % I_FeedbackViewable " Item_Feedback_Viewable (Yes | No ) #REQUIRED ">
+
+<!-- ELEMENT DECLARATIONS -->
+
+<!ELEMENT qticomment (#PCDATA) >
+<!ATTLIST qticomment
+	e-dtype NMTOKEN #FIXED "string">
+
+<!ELEMENT material (qticomment?, (mattext | matimage | mataudio | matvideo | matapplet | matflash | matapplication | matref | matpt)+, altmaterial?) >
+<!ATTLIST material
+	%I_Label; >
+
+<!ELEMENT mattext (#PCDATA | b | u | i | p | ol | ul | sup | sub | br | a | matimage | mataudio | matvideo | matapplet | matflash | matapplication | matref)* >
+<!ATTLIST mattext
+	texttype CDATA #IMPLIED
+	%I_Label; 
+	%I_CharSet; 
+	%I_Uri; >
+
+<!ELEMENT matpt (#PCDATA | alt | description)* >
+<!ATTLIST matpt
+	pttype (pka | pkt | pkz) #REQUIRED
+	uri CDATA #REQUIRED
+	%I_Ident; >
+
+<!ELEMENT matimage (#PCDATA | alt | description)* >
+<!ATTLIST matimage
+	imagtype CDATA "image/jpeg"
+	%I_Label; 
+	%I_Height; 
+	%I_Uri; 
+	%I_Embedded; 
+	%I_Width; 
+	%I_Y0; 
+	%I_X0; >
+
+<!ELEMENT mataudio (alt?, description?)>
+<!ATTLIST mataudio
+	audiotype CDATA "audio/base"
+	%I_Label; 
+	%I_Uri; 
+	%I_Embedded; >
+
+<!ELEMENT matvideo (#PCDATA | alt | description)* >
+<!ATTLIST matvideo
+	videotype CDATA "video/avi"
+	%I_Label; 
+	%I_Uri; 
+	%I_Width; 
+	%I_Height; 
+	%I_Y0; 
+	%I_X0; 
+	%I_Embedded; >
+
+<!ELEMENT matflash (alt?, description?, (matflashdata, matflashparam?), (matflash | matflashref)*)>
+<!ATTLIST matflash
+	%I_ObjectAtts;
+>
+<!ELEMENT matflashdata EMPTY>
+<!ATTLIST  matflashdata
+	%I_Label;
+	%I_Uri;
+	%I_Width;
+	%I_Height;
+	%I_X0;
+	%I_Y0;
+	%I_Embedded;
+	play (true | false) "false"
+	loop (true | false) "false"
+	menu CDATA #IMPLIED
+	quality CDATA #IMPLIED
+	wmode (window | opaque | transparent) "window"
+	align CDATA #IMPLIED
+	salign CDATA #IMPLIED
+	scale (showall | noborder | exactfit) "showall"
+	swLiveConnect (true | false) "false"
+	flashversion  CDATA  #IMPLIED
+>
+
+<!ELEMENT matflashparam EMPTY >
+<!ATTLIST matflashparam
+        %I_Uri;
+>
+
+<!ELEMENT matflashref EMPTY >
+<!ATTLIST matflashref
+       	%I_RefAtts;
+>
+
+<!ELEMENT matapplet (#PCDATA | alt | description)* >
+<!ATTLIST matapplet
+	%I_Label; 
+	%I_Uri; 
+	%I_Y0; 
+	%I_Height; 
+	%I_Width; 
+	%I_X0; 
+	%I_Embedded; >
+
+<!ELEMENT matapplication (#PCDATA | alt | description)* >
+<!ATTLIST matapplication
+	apptype CDATA #IMPLIED
+	%I_Label; 
+	%I_Uri; 
+	%I_Embedded; >
+
+<!ELEMENT matref (#PCDATA | alt | description)* >
+<!ATTLIST matref
+	%I_LinkRefId; >
+
+<!ELEMENT altmaterial (qticomment?, (mattext | matimage | mataudio | matvideo | matapplet | matflash | matapplication | matref | matpt)+) >
+
+<!ELEMENT decvar (title?) >
+<!ATTLIST decvar
+	%I_VarName; 
+	vartype (Integer | Decimal | Scientific | Boolean | String | Enumerated) "Integer"
+	defaultval CDATA #IMPLIED
+	minvalue CDATA #IMPLIED
+	maxvalue CDATA "1"
+	members CDATA #IMPLIED >
+	
+<!ELEMENT setvar (#PCDATA) >
+<!ATTLIST setvar
+	action (Set | Add | Subtract | Multiply | Divide) "Set"
+	%I_VarName; >
+
+<!ELEMENT interpretvar %htmltext; >
+<!ATTLIST interpretvar
+	%I_View; 
+	%I_VarName; >
+
+<!ELEMENT conditionvar (not | and | or | unanswered | other | varequal | varlt | varlte | vargt | vargte | varcontains | varinside)+>
+
+<!ELEMENT not (and | or | unanswered | other | varequal | varlt | varlte | vargt | vargte | varcontains | varinside) >
+
+<!ELEMENT and (not | and | or | unanswered | other | varequal | varlt | varlte | vargt | vargte | varcontains | varinside)+>
+
+<!ELEMENT or (not | and | or | unanswered | other | varequal | varlt | varlte | vargt | vargte | varcontains | varinside)+>
+
+<!ELEMENT varequal (#PCDATA) >
+<!ATTLIST varequal
+	%I_Case; 
+	%I_RespIdent; 
+	trim_whitespace (left | right | inside | outside | none | all) "all">
+
+<!ELEMENT varlt (#PCDATA) >
+<!ATTLIST varlt
+	%I_RespIdent; >
+
+<!ELEMENT varlte (#PCDATA) >
+<!ATTLIST varlte
+	%I_RespIdent; >
+
+<!ELEMENT vargt (#PCDATA) >
+<!ATTLIST vargt
+	%I_RespIdent; >
+
+<!ELEMENT vargte (#PCDATA) >
+<!ATTLIST vargte
+	%I_RespIdent; >
+
+<!ELEMENT varcontains (#PCDATA) >
+<!ATTLIST varcontains
+	%I_Case; 
+	%I_RespIdent; >
+
+<!ELEMENT varinside (#PCDATA) >
+<!ATTLIST varinside
+	areatype (Ellipse | Rectangle | Bounded) #REQUIRED
+	%I_RespIdent; >
+
+<!ELEMENT unanswered (#PCDATA) >
+<!ATTLIST unanswered
+	%I_RespIdent; >
+
+<!ELEMENT other (#PCDATA) >
+
+<!ELEMENT activationgroup (description?, examactivation*, formactivation*, activationlinks*)>
+<!ATTLIST activationgroup  
+	%I_Ident; >
+
+<!ELEMENT examactivation (description?, exam_num_attempts, stop_criteria, instructor_reenable, instructor_reactivate, secure, miscactivation*)>
+<!ATTLIST examactivation  
+	%I_Ident; >
+
+<!ELEMENT formactivation (description?, item_randomize, viewproficiency_instructor, viewproficiency_student, viewpf_instructor, viewpf_student, viewiip_instructor, viewiip_student, viewsecondarySMV_instructor, viewsecondarySMV_student, form_duration, form_num_attempts, use_stop_criteria, viewif_instructor, viewif_student, viewif_response_instructor, viewif_response_student, miscactivation*)>
+<!ATTLIST formactivation 
+	%I_Ident; >
+
+<!ELEMENT exam_num_attempts EMPTY>
+<!ATTLIST exam_num_attempts
+	number	CDATA			"1" 
+                override	(Up | Down | Both | None)	"None" >
+
+<!ELEMENT stop_criteria (title?) >
+<!ATTLIST stop_criteria
+	usage	(Yes | No )		"No"
+	override	(Yes | No | NA)	"No" >
+                
+<!ELEMENT instructor_reenable EMPTY>
+<!ATTLIST instructor_reenable 
+	allow	(Yes | No)	"Yes" 
+                override	(Yes | No)	"No" >
+
+<!ELEMENT instructor_reactivate EMPTY>
+<!ATTLIST instructor_reactivate
+	allow	(Yes | No)		"Yes" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT secure EMPTY>
+<!ATTLIST secure
+	allow	(Yes | No)		"No" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT miscactivation EMPTY>
+<!ATTLIST miscactivation
+	paramname  CDATA		#REQUIRED
+	paramtype (Integer | Decimal | Scientific | Boolean | String | Enumerated )  'Integer'
+                value	CDATA		#REQUIRED 
+                override	(Yes | No | NA)	"Yes" >
+
+<!ELEMENT item_randomize EMPTY>
+<!ATTLIST item_randomize
+	allow	(Yes | No)		"Yes"
+                override	(Yes | No )		"No" >
+
+<!ELEMENT viewproficiency_instructor EMPTY>
+<!ATTLIST viewproficiency_instructor 
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewproficiency_student EMPTY>
+<!ATTLIST viewproficiency_student 
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewpf_instructor EMPTY>
+<!ATTLIST viewpf_instructor 
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewpf_student EMPTY>
+<!ATTLIST viewpf_student
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewiip_instructor EMPTY>
+<!ATTLIST viewiip_instructor
+	allow	(Yes | No | NA)	"No" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewiip_student EMPTY>
+<!ATTLIST viewiip_student
+	allow	(Yes | No | NA)	"No"
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewsecondarySMV_instructor EMPTY >
+<!ATTLIST viewsecondarySMV_instructor
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"No" >	            
+
+<!ELEMENT viewsecondarySMV_student EMPTY >
+<!ATTLIST viewsecondarySMV_student
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"No" >
+                
+<!ELEMENT viewif_instructor EMPTY >
+<!ATTLIST viewif_instructor
+	allow	(Yes | No | NA)	"No" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewif_student EMPTY >
+<!ATTLIST viewif_student
+	allow	(Yes | No | NA)	"No" 
+                override	(Yes | No | NA)	"No" >
+
+<!ELEMENT viewif_response_instructor EMPTY >
+<!ATTLIST viewif_response_instructor
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"Yes" >
+
+<!ELEMENT viewif_response_student EMPTY >
+<!ATTLIST viewif_response_student
+	allow	(Yes | No | NA)	"Yes" 
+                override	(Yes | No | NA)	"Yes" > 
+
+<!ELEMENT form_duration EMPTY >
+<!ATTLIST form_duration
+	min	CDATA	"15"
+	max	CDATA	"720"
+	default	CDATA  	"120" >
+
+<!ELEMENT form_num_attempts EMPTY >
+<!ATTLIST form_num_attempts
+	number	CDATA	"1" >	
+                
+<!ELEMENT use_stop_criteria  EMPTY >
+<!ATTLIST use_stop_criteria
+	use	(Yes | No | NA)	"NA" >                
+                
+<!ELEMENT activationlinks (description?, activatelink+)>
+<!ATTLIST activationlinks 
+	%I_Ident; >
+
+<!ELEMENT activatelink (linkobject+)>
+<!ATTLIST activatelink
+	activationuri	CDATA	#REQUIRED >
+	
+<!ELEMENT availabilitygroup (exam_availability | form_availability | smv_availability)+ >	
+	
+<!ELEMENT exam_availability EMPTY>
+<!ATTLIST exam_availability
+	%I_LinkRefId; 
+	available       	(Yes | No )	#REQUIRED >
+
+<!ELEMENT form_availability EMPTY>
+<!ATTLIST form_availability
+	%I_LinkRefId; 
+	available       	(Yes | No )	#REQUIRED >
+	
+ <!ELEMENT smv_availability EMPTY>
+ <!ATTLIST smv_availability
+	%I_LinkRefId;    
+	varname		CDATA	#REQUIRED 
+	available       	(Yes | No) #REQUIRED >
+
+<!ELEMENT fieldtestrepository (fieldtestgroup+)>
+<!ELEMENT fieldtestlinkgroup (fieldtestlink+)>
+<!ELEMENT fieldtestlink (fieldtestlinkobject+)>
+<!ATTLIST fieldtestlink
+	uri CDATA #REQUIRED
+>
+<!ELEMENT fieldtestlinkobject EMPTY>
+<!ATTLIST fieldtestlinkobject
+	uri CDATA #REQUIRED
+	choose CDATA #REQUIRED
+	mergemethod (Random|AtomicRandom|Ordered) #REQUIRED
+	sequencemethod (Random|Ordered) #REQUIRED
+>                                  
+
+<!ELEMENT assessment (qticomment?, title?, description?, assessmentmetadata?, assessmentobjectives*, assessmentcontrol*, assessmentpage*, (fieldtestgroup | testletfieldtestgroup)*, (assessmentform | assessmentformref)+) >
+<!ATTLIST assessment  
+	%I_Ident;
+	type	(Scored | Practice | Survey) 	"Scored"
+	usage	CDATA	#IMPLIED  
+	req_completion	(Yes | No)	"No"
+	batch_activate	(Yes | No)	"No" 
+	max_activation_window    CDATA   "1440" 
+	available	(Yes | No)		"Yes" 	
+        series  CDATA   #IMPLIED
+        number  CDATA   #IMPLIED
+	external_party    CDATA   #IMPLIED  >
+
+<!ELEMENT assessmentmetadata (#PCDATA) >
+
+<!ELEMENT assessmentobjectives (qticomment?, material) >
+<!ATTLIST assessmentobjectives
+	%I_View; >
+
+<!ELEMENT assessmentcontrol (qticomment?) >
+<!ATTLIST assessmentcontrol
+	%I_HintSwitch; 
+	%I_SolutionSwitch; 
+	%I_View; 
+	%I_FeedbackSwitch; >
+
+<!ELEMENT assessprocessing (qticomment?, scores, scoreprocessing*, scorecondition*) >
+<!ATTLIST assessprocessing
+	%I_ScoreModel; >
+
+<!ELEMENT scores (qticomment?, (default_smv_decvar, interpretvar?), (smv_decvar, interpretvar?)*) >
+
+<!ELEMENT default_smv_decvar  (title?) >
+<!ATTLIST default_smv_decvar
+	%I_VarName; 
+	startval	CDATA	#REQUIRED
+	%I_FeedbackViewable; >
+
+<!ELEMENT smv_decvar  (title?) >
+<!ATTLIST smv_decvar
+	%I_VarName;  
+	available	(Yes | No)	"Yes"
+	startval	CDATA	#REQUIRED
+	%I_FeedbackViewable; >	
+	
+<!ELEMENT scorecondition (qticomment?, conditionvar, setvar*, proficiencylink?, displayfeedback*) >
+<!ATTLIST scorecondition
+	%I_VarName;
+	%I_Title;  >
+	
+<!ELEMENT proficiencylink (#PCDATA) >
+<!ATTLIST proficiencylink
+	%I_LinkRefId; 
+	stop_criteria_met	(Yes | No) 	"Yes" >	
+	
+<!ELEMENT displayfeedback (#PCDATA) >
+<!ATTLIST displayfeedback
+	feedbacktype (Response | Solution | Hint) "Response"
+	%I_LinkRefId; >	
+
+<!ELEMENT scoreprocessing (qticomment?, setsmv+) >
+<!ATTLIST scoreprocessing
+	%I_VarName; >
+
+<!ELEMENT setsmv EMPTY >
+<!ATTLIST setsmv
+	action (Set | Add | Subtract | Multiply | Divide)  "Add"
+	identref	CDATA	#REQUIRED
+	obsnameref  CDATA  #REQUIRED >	
+	
+<!ELEMENT proficiency  (title?, abbreviation?, alt?, description?) >
+<!ATTLIST proficiency
+	%I_Ident;
+	icon	CDATA	#IMPLIED	>
+	
+<!ELEMENT abbreviation  %charstyle; >		
+
+<!ELEMENT assessfeedback (qticomment?, title?, material?) >
+<!ATTLIST assessfeedback
+	%I_View; 
+	%I_Ident; >
+
+<!ELEMENT assessmentpage (qticomment?, material) >
+<!ATTLIST assessmentpage
+	%I_Title; 
+	%I_Label; 
+	%I_View; 
+	placement (first | last | ref | proficiency) "first" >
+
+<!ELEMENT assessmentform (title?, description?, assessprocessing?, proficiency*, assessfeedback*, assessmentpage*, sequence?, coregroup, assessmentversion*) >
+<!ATTLIST assessmentform
+	%I_Ident; 
+	available  (Yes | No)  "Yes"
+	min_quest CDATA "1"
+	max_quest CDATA "15"
+	default_quest CDATA "5" >
+
+<!ELEMENT assessmentformref (assessmentversion*) >
+<!ATTLIST assessmentformref
+	%I_LinkRefId; >
+
+<!ELEMENT coregroup ((sectioninstance | iteminstance | testletinstance)+) >
+
+<!ELEMENT fieldtestgroup ((sectioninstance | iteminstance | testletinstance)+) >
+<!ATTLIST fieldtestgroup
+	%I_Ident; >
+
+<!ELEMENT testletfieldtestgroup ((iteminstance | sectioninstance)+) >
+<!ATTLIST testletfieldtestgroup
+	%I_Ident; >
+	
+<!ELEMENT assessmentversion (sequence?, (questiongroupref | testletquestgroupref)+) >
+<!ATTLIST assessmentversion
+	%I_Ident; 
+	%I_Title; >
+
+<!ELEMENT questiongroupref EMPTY>
+<!ATTLIST questiongroupref
+	%I_LinkRefId; >
+
+<!ELEMENT testletquestgroupref EMPTY>
+<!ATTLIST testletquestgroupref
+	%I_LinkRefId; 
+	testletrefid	CDATA	#REQUIRED >	
+
+<!ELEMENT sequence (sequenceparam*) >
+<!ATTLIST sequence
+	method   CDATA   "Ordered" >
+
+<!ELEMENT sequenceparam (#PCDATA) >
+<!ATTLIST sequenceparam
+	paramname CDATA 	#IMPLIED
+	paramtype (Integer | Decimal | Scientific | Boolean | String | Enumerated) "Integer" >
+	
+<!ELEMENT sectioninstance (sequence?) >
+<!ATTLIST sectioninstance
+	%I_LinkRefId; >
+
+<!ELEMENT sectionref (#PCDATA) >
+<!ATTLIST sectionref
+	%I_LinkRefId; >
+
+<!ELEMENT testletinstance (sequence?) >
+<!ATTLIST testletinstance
+	%I_LinkRefId; >
+
+<!ELEMENT testletref (#PCDATA) >
+<!ATTLIST testletref
+	%I_LinkRefId; >	
+
+<!ELEMENT iteminstance (resprocessing?, itemfeedback*) >
+<!ATTLIST iteminstance
+	%I_LinkRefId; >
+
+<!ELEMENT itemref (#PCDATA) >
+<!ATTLIST itemref
+	%I_LinkRefId; >	
+	
+<!ELEMENT section (qticomment?, sectionmetadata?, sectionobjectives*, sectioncontrol*, sequence?, sectionprocessing?, sectionfeedback*, (section | sectionref | item | itemref | testlet | testletref)*) >
+<!ATTLIST section
+	%I_Ident; 
+	%I_Title; 
+	noreorder (Yes | No) "No"
+	atomic (Yes | No) "No"
+	choose CDATA "0" >
+
+<!ELEMENT sectionmetadata (#PCDATA) >
+
+<!ELEMENT sectionobjectives (qticomment?, material) >
+<!ATTLIST sectionobjectives
+	%I_View; >
+
+<!ELEMENT sectioncontrol (qticomment?) >
+<!ATTLIST sectioncontrol
+	%I_FeedbackSwitch; 
+	%I_HintSwitch; 
+	%I_SolutionSwitch; 
+	%I_View; >
+
+<!ELEMENT sectionprocessing (qticomment?, scores?, scorecondition+) >
+<!ATTLIST sectionprocessing
+	%I_ScoreModel; >
+
+<!ELEMENT sectionfeedback (qticomment?, material) >
+<!ATTLIST sectionfeedback
+	%I_View; 
+	%I_Ident; 
+	%I_Title; >
+	
+<!ELEMENT testlet (qticomment?, sequence?, testlet_presentation, (item | itemref)+, itemfeedback*) >
+<!ATTLIST testlet  
+	%I_Ident;
+	%I_Title; >
+
+<!ELEMENT testlet_presentation (material?, response_header?) >
+<!ATTLIST testlet_presentation
+	displaynum    (none | bullet | numeric | a | A |  I | i | 1a | 1A )  "a" >
+
+<!ELEMENT response_header (column_header+) >
+<!ATTLIST response_header
+	orientation  (vertical | horizontal) "horizontal" >
+		
+<!ELEMENT column_header  (#PCDATA) >		    	
+
+<!ELEMENT item (qticomment?, itemmetadata?, itemobjectives*, itemcontrol*, itemrubric*, presentation, resprocessing?, itemfeedback*) >
+<!ATTLIST item
+	maxattempts CDATA #IMPLIED
+	%I_Label; 
+	%I_Ident; 
+	%I_Title; 
+	a-dtype NMTOKENS "maxattempts int"
+	type (TF | MCSA | MCMA | FIB | PNC | DND | SSAI | OBS)   #REQUIRED 
+	usage (Default | Survey) "Default" 
+	nominal (Yes | No | NA) #IMPLIED >
+	
+<!-- Values for type are:
+True or False			TF
+Multiple Choice Single Answer		MCSA
+Multiple Choise Multiple Answer		MCMA
+Fill in the Blank			FIB
+Point and Click			PNC
+Drag and Drop			DND
+Self scored assessment item		SSAI 
+Observables definitions item		OBS -->
+
+<!ELEMENT itemmetadata (#PCDATA) >
+
+<!ELEMENT itemobjectives (qticomment?, material) >
+<!ATTLIST itemobjectives
+	%I_View; >
+
+<!ELEMENT itemcontrol (qticomment?) >
+<!ATTLIST itemcontrol
+	%I_FeedbackSwitch; 
+	%I_HintSwitch; 
+	%I_SolutionSwitch; 
+	%I_View; >
+
+<!ELEMENT itemrubric (material) >
+<!ATTLIST itemrubric
+	%I_View; >
+
+<!ELEMENT presentation (qticomment?, material*, ((response_lid | response_xy | response_str | response_num | response_grp), material*)*) >
+<!ATTLIST presentation
+	%I_Label; >
+
+<!ELEMENT response_lid (material?, (render_choice | render_hotspot | render_slider | render_fib), material?) >
+<!ATTLIST response_lid
+	%I_Rcardinality; 
+	%I_Rtiming; 
+	%I_Ident; >
+
+<!ELEMENT response_xy (material?, (render_choice | render_hotspot | render_slider | render_fib), material?) >
+<!ATTLIST response_xy
+	%I_Rcardinality; 
+	%I_Rtiming; 
+	%I_Ident; >
+
+<!ELEMENT response_str (material?, (render_choice | render_hotspot | render_slider | render_fib), material?) >
+<!ATTLIST response_str
+	%I_Rcardinality; 
+	%I_Ident; 
+	%I_Rtiming; >
+
+<!ELEMENT response_num (material?, (render_choice | render_hotspot | render_slider | render_fib), material?) >
+<!ATTLIST response_num
+	numtype (Integer | Decimal | Scientific) "Integer"
+	%I_Rcardinality; 
+	%I_Ident; 
+	%I_Rtiming; >
+
+<!ELEMENT response_grp (material?, (render_choice | render_hotspot | render_slider | render_fib), material?) >
+<!ATTLIST response_grp
+	%I_Rcardinality; 
+	%I_Ident; 
+	%I_Rtiming; >
+
+<!ELEMENT response_label (#PCDATA | qticomment | material)* >
+<!ATTLIST response_label
+	rshuffle (Yes | No) "Yes"
+	rarea (Ellipse | Rectangle | Bounded) "Ellipse"
+	rrange (Exact | Range) "Exact"
+	labelrefid CDATA #IMPLIED
+	%I_Ident;
+	rlcorrect (Yes | No ) "No">
+
+<!ELEMENT response_na ANY>
+
+<!ELEMENT render_choice ((material | response_label)*, emphasis_area*, response_na?) >
+<!ATTLIST render_choice
+	shuffle (Yes | No) "No"
+	%I_MinNumber; 
+	%I_MaxNumber; 
+	sourcelayout (vertical | horizontal | dropdown) "vertical">
+
+<!ELEMENT render_hotspot ((material | response_label)*, emphasis_area+, response_na?) >
+<!ATTLIST render_hotspot
+	shuffle (Yes | No) "No"
+	%I_MaxNumber; 
+	%I_MinNumber; 
+	emphasis CDATA "snap"
+	sourcelayout (left | right | top | bottom) "bottom">
+
+<!ELEMENT emphasis_area (#PCDATA) >
+<!ATTLIST emphasis_area
+	areatype (Ellipse | Rectangle) #REQUIRED>
+
+<!ELEMENT render_slider ((material | response_label)*, response_na?) >
+<!ATTLIST render_slider
+	orientation (Horizontal | Vertical) "Horizontal"
+	lowerbound CDATA #REQUIRED
+	upperbound CDATA #REQUIRED
+	step CDATA #IMPLIED
+	startval CDATA #IMPLIED
+	steplabel (Yes | No) "No"
+	%I_MaxNumber; 
+	%I_MinNumber; 
+	a-dtype NMTOKENS "lowerbound number
+                                                upperbound number
+                                                step       number
+                                                startval   number">
+
+<!ELEMENT render_fib ((material | response_label)*, response_na?) >
+<!ATTLIST render_fib
+	encoding CDATA "UTF_8"
+	fibtype (String | Integer | Decimal | Scientific) "String"
+	rows CDATA #IMPLIED
+	maxchars CDATA #IMPLIED
+	prompt (Box | Dashline | Asterisk | Underline) #IMPLIED
+	columns CDATA #IMPLIED
+	%I_CharSet; 
+	%I_MaxNumber; 
+	%I_MinNumber; 
+	a-dtype NMTOKENS "rows     int
+                                             maxchars int
+                                             columns  int">
+
+<!ELEMENT resprocessing (qticomment?, outcomes, (respcondition)+) >
+<!ATTLIST resprocessing
+	%I_ScoreModel; 
+	resprocident    CDATA  #REQUIRED >
+
+<!ELEMENT outcomes (qticomment?, (decvar, interpretvar?)+) >
+
+<!ELEMENT respcondition (qticomment?, conditionvar, setvar*, displayfeedback*) >
+<!ATTLIST respcondition
+	%I_Title; >
+
+<!ELEMENT itemfeedback (material | solution+ | hint+) >
+<!ATTLIST itemfeedback
+	%I_View; 
+	%I_Ident; 
+	%I_Title; >
+
+<!ELEMENT solution (qticomment?, solutionmaterial+) >
+<!ATTLIST solution
+	%I_FeedbackStyle; >
+
+<!ELEMENT solutionmaterial (material) >
+
+<!ELEMENT hint (qticomment?, hintmaterial+) >
+<!ATTLIST hint
+	%I_FeedbackStyle; >
+
+<!ELEMENT hintmaterial (material) >
+
+<!ELEMENT regrade  (description?, (itemregrade | formregrade)+) >
+<!ATTLIST regrade
+	%I_Ident; >
+
+<!ELEMENT itemregrade (description?, resprocessing, itemfeedback*) >
+<!ATTLIST itemregrade
+	%I_Ident;
+	itemrefid	CDATA	#REQUIRED
+	formrefids	CDATA	#IMPLIED >
+	
+<!ELEMENT formregrade  (description?, assessprocessing, proficiency*, assessfeedback*) >
+<!ATTLIST formregrade
+	%I_Ident;
+	formrefid	CDATA	#REQUIRED >	

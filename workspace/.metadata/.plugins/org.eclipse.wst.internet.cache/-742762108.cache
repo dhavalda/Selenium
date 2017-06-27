@@ -1,0 +1,631 @@
+<!--
+****************************************************************************
+Cisco Systems, Inc. DTD v2p13p0 
+****************************************************************************
+
+Last Changed: 25 February 2016
+
+Description: Cisco Systems, Inc. DTD for Virtuoso version eden
+Version: v2p13p0
+Filename: cli_v2p13p0.dtd
+Copyright: Cisco Systems, Inc. 2016
+Contact Info: vds@unicon.net
+
+This DTD combines CLI-specific elements,a modified IMS-MD01.dtd, 
+a modified IMS-QTI.dtd and selected elements from xhtml1-strict.dtd.
+-->
+<!--=============================================-->
+<!-- Parameter Entity Declarations -->
+<!--=============================================-->
+<!-- XHTML Imported Entities -->
+<!ENTITY % HTMLlat1 PUBLIC "-//W3C//ENTITIES Latin 1 for XHTML//EN" "xhtml-lat1.ent">
+%HTMLlat1;
+<!ENTITY % HTMLsymbol PUBLIC "-//W3C//ENTITIES Symbols for XHTML//EN" "xhtml-symbol.ent">
+%HTMLsymbol;
+<!ENTITY % HTMLspecial PUBLIC "-//W3C//ENTITIES Special for XHTML//EN" "xhtml-special.ent">
+%HTMLspecial;
+<!ENTITY % Character "CDATA">
+<!ENTITY % ContentType "CDATA">
+<!ENTITY % ViewType "(all | instructor | learner)">
+<!ENTITY % Length "CDATA">
+<!ENTITY % MultiLength "CDATA">
+<!ENTITY % Number "CDATA">
+<!ENTITY % Pixels "CDATA">
+<!ENTITY % Text "CDATA">
+<!ENTITY % uri "CDATA">
+<!-- Attribute declaration entities -->
+<!ENTITY % CAlign "(top|bottom|left|right)">
+<!ENTITY % cellhalign " align    (left | center | right | justify | char )  #IMPLIED
+    char    %Character;  #IMPLIED
+    charoff %Length;     #IMPLIED">
+<!ENTITY % cellvalign " valign  (top | middle | bottom | baseline )  #IMPLIED">
+<!ENTITY % objectatts "oid        CDATA        #REQUIRED">
+<!ENTITY % OLStyle "CDATA">
+<!ENTITY % refatts "refid     CDATA        #IMPLIED">
+<!ENTITY % Scope "(row|col|rowgroup|colgroup)">
+<!ENTITY % TAlign "(left|center|right)">
+<!ENTITY % TFrame "(void|above|below|hsides|lhs|rhs|vsides|box|border)">
+<!ENTITY % TRules "(none | groups | rows | cols | all)">
+<!ENTITY % ULStyle "(disc|square|circle)">
+<!ENTITY % yesorno "CDATA">
+<!--  Element groups -->
+<!ENTITY % special "br">
+<!ENTITY % fontstyle "i | b | u">
+<!ENTITY % phrase "em | strong | code | sup | sub">
+<!ENTITY % charstyle "(#PCDATA | linkobject | %fontstyle; | %phrase;)*">
+<!ENTITY % inline "linkobject | mediaobject | mediaobject-ref | %special; | %fontstyle; | %phrase;">
+<!ENTITY % Inline "(#PCDATA | %inline;)*">
+<!ENTITY % alerts "warning | caution | note | tip">
+<!ENTITY % mediaelems "imageobject-ref | videoobject-ref | audioobject-ref | textobject-ref | miscobject-ref | imageobject |  videoobject | audioobject | textobject | miscobject ">
+<!ENTITY % lists "ul | ol | dl">
+<!ENTITY % blocktext "hr | blockquote">
+<!ENTITY % block "p | %lists; | %alerts; | %blocktext; | table | content-section | contsection-ref">
+<!ENTITY % Block "(%block;)*">
+<!ENTITY % Flow "(#PCDATA | %block; | %inline;)*">
+<!ENTITY % Object.Flow "(%block; | %inline;)*">
+<!ENTITY % html "p | %special; | %fontstyle; | %phrase; | %lists; | %blocktext;">
+<!ENTITY % htmltext "(#PCDATA | %html;)*">
+<!ENTITY % descriptiontext "(#PCDATA | %html; | linkobject | table)*">
+<!-- Declaration to include IMS metadata DTD -->
+<!ENTITY % ims-dtd SYSTEM "IMS-MD01.dtd">
+%ims-dtd;
+<!-- Declaration to include IMS question/test DTD -->
+<!ENTITY % qti-dtd SYSTEM "IMS_QTI_v2p13p0_cli.dtd">
+%qti-dtd;
+<!--=============================================-->
+<!-- CLI ELEMENT DECLARATIONS -->
+<!--=============================================-->
+<!-- Course structure elements -->
+<!ELEMENT course (RECORD, (course-version | static-version)+)>
+<!ATTLIST course
+	%objectatts; 
+>
+<!ELEMENT course-version (RECORD, published?, description?, (chapter | chapter-ref)+)>
+<!ATTLIST course-version
+	%objectatts; 
+	version CDATA #IMPLIED
+>
+
+<!ELEMENT published EMPTY>
+<!ATTLIST published
+	date CDATA #IMPLIED
+>
+
+<!ELEMENT static-version (RECORD, description?)>
+<!ATTLIST static-version
+	%objectatts; 
+	version CDATA #IMPLIED
+	file CDATA #REQUIRED
+>
+<!ELEMENT chapter (RECORD, (rlo | rlo-ref)+)>
+<!ATTLIST chapter
+    type %ContentType; #IMPLIED
+    view %ViewType; "all"
+    %objectatts; 
+>
+<!ELEMENT rlo (RECORD, (rio | rio-ref)+)>
+<!ATTLIST rlo
+	type %ContentType; #IMPLIED
+    	view %ViewType; "all"
+	%objectatts; 
+>
+<!ELEMENT rio (RECORD, group+)>
+<!ATTLIST rio
+	type %ContentType; #IMPLIED	
+    	view %ViewType; "all"
+	%objectatts; 
+>
+<!ELEMENT group (title?, (%Object.Flow; | practiceassessment)+)>
+<!ATTLIST group
+    	view %ViewType; "all"
+	%objectatts; 
+>
+<!-- glossary and command index elements -->
+<!ELEMENT entryrepository (entry | entrygroup | entrygroup-ref)+>
+<!ELEMENT entry (title, summary?, description)>
+<!ATTLIST entry
+	oid CDATA #REQUIRED
+	type CDATA #REQUIRED
+    	view %ViewType; "all"
+>
+<!ELEMENT summary (#PCDATA | b | code | i | sub | sup | u)*>
+<!ELEMENT description %descriptiontext;>
+<!ATTLIST description
+	%I_View; 
+>
+<!ELEMENT entrygroup (title?, summary?, description, (entry-ref | entrygroup-ref)+)>
+<!ATTLIST entrygroup
+	oid CDATA #REQUIRED
+	type CDATA #REQUIRED
+	title CDATA #IMPLIED
+    	view %ViewType; "all"
+>
+<!-- Media-object elements -->
+<!-- Added <fileobject> and <fileobject-ref> to current <mediaobject> content model -->
+<!ELEMENT mediaobject (alt?, RECORD, description?, (imageobject-ref | videoobject-ref | audioobject-ref | textobject-ref | miscobject-ref | flashobject-ref | fileobject-ref | imageobject | videoobject | audioobject | textobject | miscobject | flashobject | fileobject)+)>
+<!ATTLIST mediaobject
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT imageobject (alt?, RECORD, description?, imagedata, caption?)>
+<!ATTLIST imageobject
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT imagedata EMPTY>
+<!ATTLIST imagedata
+	entityref ENTITY #IMPLIED
+	fileref CDATA #IMPLIED
+	mimetype CDATA #IMPLIED
+	srccredit CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	align (left | right | center) #IMPLIED
+	scale CDATA #IMPLIED
+	scalefit %yesorno; #IMPLIED
+	var CDATA #IMPLIED
+>
+<!ELEMENT videoobject (alt?, RECORD, description?, videodata, caption?)>
+<!ATTLIST videoobject
+	type (streaming | default) "default"
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT videodata EMPTY>
+<!ATTLIST videodata
+	entityref ENTITY #IMPLIED
+	fileref CDATA #IMPLIED
+	mimetype CDATA #IMPLIED
+	srccredit CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	align (left | right | center) #IMPLIED
+	scale CDATA #IMPLIED
+	scalefit %yesorno; #IMPLIED
+	var CDATA #IMPLIED
+>
+<!ELEMENT audioobject (alt?, RECORD, description?, audiodata, caption?)>
+<!ATTLIST audioobject
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT audiodata EMPTY>
+<!ATTLIST audiodata
+	entityref ENTITY #IMPLIED
+	fileref CDATA #IMPLIED
+	mimetype CDATA #IMPLIED
+	srccredit CDATA #IMPLIED
+	var CDATA #IMPLIED
+>
+<!ELEMENT flashobject ((alt?, RECORD, description?, flashdata, caption?), (audioobject | fileobject | flashobject | imageobject | videoobject | audioobject-ref | fileobject-ref | flashobject-ref | imageobject-ref | videoobject-ref)*)>
+<!ATTLIST flashobject
+	type (streaming | default) "default"
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT flashdata EMPTY>
+<!ATTLIST flashdata
+	entityref ENTITY #IMPLIED
+	fileref CDATA #IMPLIED
+	mimetype CDATA #IMPLIED
+	srccredit CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	align (left | right | center) #IMPLIED
+	scale CDATA #IMPLIED
+	scalefit %yesorno; #IMPLIED
+	var CDATA #IMPLIED
+	wrapper (ciscoflashtheme | none) #IMPLIED
+	wrapperflashvars CDATA  #IMPLIED
+>
+<!ELEMENT fileobject (alt?, RECORD, description?, filedata, caption?)>
+<!ATTLIST fileobject
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT filedata EMPTY>
+<!ATTLIST filedata
+	entityref ENTITY #IMPLIED
+	fileref CDATA #IMPLIED
+	mimetype CDATA #IMPLIED
+	srccredit CDATA #IMPLIED
+	var CDATA #IMPLIED
+>
+<!ELEMENT miscobject (alt?, RECORD, description?, ((imageobject, hotarea+) | imageobject+))>
+<!ATTLIST miscobject
+	type (slideshow | mouseover) #REQUIRED
+	alt CDATA #IMPLIED
+	%objectatts; 
+>
+<!ELEMENT hotarea (x, y, height, width, text)>
+<!ELEMENT x (#PCDATA)>
+<!ELEMENT y (#PCDATA)>
+<!ELEMENT height (#PCDATA)>
+<!ELEMENT width (#PCDATA)>
+<!ELEMENT text (#PCDATA)>
+<!ELEMENT alt (#PCDATA)>
+<!ELEMENT textobject (RECORD, %Object.Flow;)>
+<!ATTLIST textobject
+	%objectatts; 
+>
+<!-- Reference elements -->
+<!ELEMENT chapter-ref EMPTY>
+<!ATTLIST chapter-ref
+	%refatts; 
+>
+<!ELEMENT rlo-ref EMPTY>
+<!ATTLIST rlo-ref
+	%refatts; 
+>
+<!ELEMENT rio-ref EMPTY>
+<!ATTLIST rio-ref
+	%refatts; 
+>
+<!ELEMENT entry-ref EMPTY>
+<!ATTLIST entry-ref
+	refid CDATA #REQUIRED
+>
+<!ELEMENT entrygroup-ref EMPTY>
+<!ATTLIST entrygroup-ref
+	refid CDATA #REQUIRED
+>
+<!ELEMENT mediaobject-ref EMPTY>
+<!ATTLIST mediaobject-ref
+	%refatts; 
+>
+<!ELEMENT audioobject-ref EMPTY>
+<!ATTLIST audioobject-ref
+	%refatts; 
+>
+<!ELEMENT imageobject-ref EMPTY>
+<!ATTLIST imageobject-ref
+	%refatts; 
+>
+<!ELEMENT miscobject-ref EMPTY>
+<!ATTLIST miscobject-ref
+	%refatts; 
+>
+<!ELEMENT textobject-ref EMPTY>
+<!ATTLIST textobject-ref
+	%refatts; 
+>
+<!ELEMENT videoobject-ref EMPTY>
+<!ATTLIST videoobject-ref
+	%refatts; 
+>
+<!ELEMENT contsection-ref EMPTY>
+<!ATTLIST contsection-ref
+	%refatts; 
+>
+<!ELEMENT flashobject-ref EMPTY>
+<!ATTLIST flashobject-ref
+	%refatts; 
+>
+<!ELEMENT fileobject-ref EMPTY>
+<!ATTLIST fileobject-ref
+	%refatts; 
+>
+<!-- Common Elements -->
+<!ELEMENT content-section (title?, (%Object.Flow; | practiceassessment)+)>
+<!ATTLIST content-section
+	align (left | right | center) #IMPLIED
+	type %ContentType; #IMPLIED
+    view %ViewType; "all"
+	%objectatts; 
+>
+<!ELEMENT caution (title?, %Object.Flow;)>
+<!ATTLIST  caution
+    	view %ViewType; "all"
+>
+<!ELEMENT warning (title?, %Object.Flow;)>
+<!ATTLIST  warning
+    	view %ViewType; "all"
+>
+<!ELEMENT tip (title?, %Object.Flow;)>
+<!ATTLIST  tip
+    	view %ViewType; "all"
+>
+<!ELEMENT note (title?, %Object.Flow;)>
+<!ATTLIST  note
+    	view %ViewType; "all"
+>
+<!-- Linking Elements -->
+<!ELEMENT entrylinkgroup (entrylink+)>
+<!ELEMENT entrylink (linkobject+)>
+<!ATTLIST entrylink
+	uri CDATA #REQUIRED
+>
+<!ELEMENT linkobject (#PCDATA | %html; | imageobject)*>
+<!ATTLIST linkobject
+	type %ContentType; #IMPLIED
+	uri CDATA #REQUIRED
+>
+<!ELEMENT moreinfogroupings (moreinfolinks | moreinfogroup)+>
+<!ELEMENT moreinfolinks (linkobject+)>
+<!ATTLIST moreinfolinks
+	uri CDATA #REQUIRED
+>
+<!ELEMENT moreinfogroup (moreinfo+)>
+<!ATTLIST moreinfogroup
+	uri CDATA #REQUIRED
+>
+<!ELEMENT moreinfo (moreinfoparam+)>
+<!ATTLIST moreinfo
+	uri CDATA #REQUIRED
+>
+<!ELEMENT moreinfoparam EMPTY>
+<!ATTLIST moreinfoparam
+	name CDATA #REQUIRED
+	paramtype (Integer | Decimal | Scientific | Boolean | String | Enumerated) "Integer"
+	value CDATA #REQUIRED
+>
+<!ELEMENT remediationgroup (remediationlink+)>
+<!ELEMENT remediationlink (remediationparam*, linkobject+)>
+<!ATTLIST remediationlink
+	uri CDATA #REQUIRED
+	assessmenturi CDATA #IMPLIED
+	%I_View; 
+>
+<!ELEMENT remediationparam EMPTY>
+<!ATTLIST remediationparam
+	paramname CDATA #REQUIRED
+	paramtype (Integer | Decimal | Scientific | Boolean | String | Enumerated) "Integer"
+	value CDATA #REQUIRED
+>
+<!ELEMENT contentlinkgroup (contentlink+)>
+<!ELEMENT contentlink (linkobject+)>
+<!ATTLIST contentlink
+	uri CDATA #REQUIRED
+	assessmenturi CDATA #IMPLIED
+>
+<!-- Assessment-like Elements -->
+<!ELEMENT practiceassessment (item | itemref | section | sectionref | testlet | testletref)+>
+<!--=============================================-->
+<!-- XHTML ELEMENT DECLARATIONS -->
+<!--=============================================-->
+
+
+<!ENTITY % ContentType "CDATA">
+    <!-- media type, as per [RFC2045] -->
+
+<!ENTITY % ContentTypes "CDATA">
+    <!-- comma-separated list of media types, as per [RFC2045] -->
+
+<!ENTITY % Charset "CDATA">
+    <!-- a character encoding, as per [RFC2045] -->
+
+<!ENTITY % Charsets "CDATA">
+    <!-- a space separated list of character encodings, as per [RFC2045] -->
+
+<!ENTITY % LanguageCode "NMTOKEN">
+    <!-- a language code, as per [RFC3066] -->
+
+<!ENTITY % Character "CDATA">
+    <!-- a single character, as per section 2.2 of [XML] -->
+
+<!ENTITY % Number "CDATA">
+    <!-- one or more digits -->
+
+<!ENTITY % LinkTypes "CDATA">
+    <!-- space-separated list of link types -->
+
+<!ENTITY % MediaDesc "CDATA">
+    <!-- single or comma-separated list of media descriptors -->
+
+<!ENTITY % URI "CDATA">
+    <!-- a Uniform Resource Identifier, see [RFC2396] -->
+
+<!ENTITY % UriList "CDATA">
+    <!-- a space separated list of Uniform Resource Identifiers -->
+
+<!ENTITY % Datetime "CDATA">
+    <!-- date and time information. ISO date format -->
+
+<!ENTITY % Script "CDATA">
+    <!-- script expression -->
+
+<!ENTITY % StyleSheet "CDATA">
+    <!-- style sheet data -->
+
+<!ENTITY % Text "CDATA">
+    <!-- used for titles etc. -->
+
+<!ENTITY % Length "CDATA">
+    <!-- nn for pixels or nn% for percentage length -->
+
+<!ENTITY % MultiLength "CDATA">
+    <!-- pixel, percentage, or relative -->
+
+<!ENTITY % Pixels "CDATA">
+    <!-- integer representing length in pixels -->
+
+<!-- these are used for image maps -->
+
+<!ENTITY % Shape "(rect|circle|poly|default)">
+
+<!ENTITY % Coords "CDATA">
+    <!-- comma separated list of lengths -->
+
+<!ENTITY % coreattrs
+ "id          ID             #IMPLIED
+  class       CDATA          #IMPLIED
+  style       %StyleSheet;   #IMPLIED
+  title       %Text;         #IMPLIED"
+  >
+
+<!ENTITY % i18n
+ "lang        %LanguageCode; #IMPLIED
+  xml:lang    %LanguageCode; #IMPLIED
+  dir         (ltr|rtl)      #IMPLIED"
+  >
+
+<!ENTITY % events
+ "onclick     %Script;       #IMPLIED
+  ondblclick  %Script;       #IMPLIED
+  onmousedown %Script;       #IMPLIED
+  onmouseup   %Script;       #IMPLIED
+  onmouseover %Script;       #IMPLIED
+  onmousemove %Script;       #IMPLIED
+  onmouseout  %Script;       #IMPLIED
+  onkeypress  %Script;       #IMPLIED
+  onkeydown   %Script;       #IMPLIED
+  onkeyup     %Script;       #IMPLIED"
+  >
+
+<!ENTITY % focus
+ "accesskey   %Character;    #IMPLIED
+  tabindex    %Number;       #IMPLIED
+  onfocus     %Script;       #IMPLIED
+  onblur      %Script;       #IMPLIED"
+  >
+
+
+<!ENTITY % special.pre
+   "br | span | bdo | map">
+
+
+<!ENTITY % special
+   "%special.pre; | object | img ">
+
+<!ENTITY % fontstyle "tt | i | b | big | small ">
+
+<!ENTITY % phrase "em | strong | dfn | code | q |
+                   samp | kbd | var | cite | abbr | acronym | sub | sup ">
+
+<!ENTITY % inline.forms "input | select | textarea | label | button">
+
+<!-- these can occur at block or inline level -->
+<!ENTITY % misc.inline "ins | del | script">
+
+<!-- these can only occur at block level -->
+<!ENTITY % misc "noscript | %misc.inline;">
+
+<!ENTITY % inline "a | %special; | %fontstyle; | %phrase; | %inline.forms;">
+
+<!-- %Inline; covers inline or "text-level" elements -->
+<!ENTITY % Inline "(#PCDATA | %inline; | %misc.inline;)*">
+
+
+<!ENTITY % attrs "%coreattrs; %i18n; %events;">
+
+
+<!ELEMENT title %charstyle;>
+<!ELEMENT p %Inline;>
+<!ELEMENT ul (li)+>
+<!ATTLIST ul
+	type %ULStyle; #IMPLIED
+>
+<!ELEMENT ol (li)+>
+<!ATTLIST ol
+	type %OLStyle; #IMPLIED
+>
+<!ELEMENT li %Flow;>
+<!ELEMENT dl (dt | dd)+>
+<!ELEMENT dt %Inline;>
+<!ELEMENT dd %Flow;>
+<!ELEMENT hr EMPTY>
+<!ELEMENT blockquote %Inline;>
+<!ATTLIST blockquote
+	cite %uri; #IMPLIED
+>
+<!ELEMENT br EMPTY>
+<!ELEMENT em %Inline;>
+<!ELEMENT strong %Inline;>
+<!ELEMENT code %Inline;>
+<!ELEMENT sub %Inline;>
+<!ELEMENT sup %Inline;>
+<!ELEMENT i %Inline;>
+<!ELEMENT b %Inline;>
+<!ELEMENT u %Inline;>
+<!-- Table Elements -->
+<!ELEMENT table (caption?, (col* | colgroup*), thead?, tfoot?, (tbody+ | tr+))>
+<!ATTLIST table
+	summary %Text; #IMPLIED
+	width %Length; #IMPLIED
+	border %Pixels; #IMPLIED
+	frame %TFrame; #IMPLIED
+	rules %TRules; #IMPLIED
+	cellspacing %Length; #IMPLIED
+	cellpadding %Length; #IMPLIED
+>
+<!ELEMENT caption %Inline;>
+<!ELEMENT thead (tr)+>
+<!ATTLIST thead
+	%cellhalign; 
+	%cellvalign; 
+>
+<!ELEMENT tfoot (tr)+>
+<!ATTLIST tfoot
+	%cellhalign; 
+	%cellvalign; 
+>
+<!ELEMENT tbody (tr)+>
+<!ATTLIST tbody
+	%cellhalign; 
+	%cellvalign; 
+>
+<!ELEMENT colgroup (col)*>
+<!ATTLIST colgroup
+	span %Number; "1"
+	width %MultiLength; #IMPLIED
+	%cellhalign; 
+	%cellvalign; 
+>
+<!ELEMENT col EMPTY>
+<!ATTLIST col
+	span %Number; "1"
+	width %MultiLength; #IMPLIED
+	%cellhalign; 
+	%cellvalign; 
+>
+<!ELEMENT tr (th | td)+>
+<!ATTLIST tr
+	%cellhalign; 
+	%cellvalign; 
+>
+<!ELEMENT th %Flow;>
+<!ATTLIST th
+	abbr %Text; #IMPLIED
+	axis CDATA #IMPLIED
+	headers IDREFS #IMPLIED
+	scope %Scope; #IMPLIED
+	rowspan %Number; "1"
+	colspan %Number; "1"
+	%cellhalign; 
+	%cellvalign; 
+	width %Pixels; #IMPLIED
+	height %Pixels; #IMPLIED
+>
+<!ELEMENT td %Flow;>
+<!ATTLIST td
+	abbr %Text; #IMPLIED
+	axis CDATA #IMPLIED
+	headers IDREFS #IMPLIED
+	scope %Scope; #IMPLIED
+	rowspan %Number; "1"
+	colspan %Number; "1"
+	%cellhalign; 
+	%cellvalign; 
+	width %Pixels; #IMPLIED
+	height %Pixels; #IMPLIED
+>
+
+
+<!ENTITY % a.content
+   "(#PCDATA | %special; | %fontstyle; | %phrase; | %inline.forms; | %misc.inline;)*">
+
+<!ELEMENT a %a.content;>
+<!ATTLIST a
+  %attrs;
+  %focus;
+  charset     %Charset;      #IMPLIED
+  type        %ContentType;  #IMPLIED
+  name        NMTOKEN        #IMPLIED
+  href        %URI;          #IMPLIED
+  hreflang    %LanguageCode; #IMPLIED
+  rel         %LinkTypes;    #IMPLIED
+  rev         %LinkTypes;    #IMPLIED
+  shape       %Shape;        "rect"
+  coords      %Coords;       #IMPLIED
+  target      (_blank) 		 #IMPLIED
+  >

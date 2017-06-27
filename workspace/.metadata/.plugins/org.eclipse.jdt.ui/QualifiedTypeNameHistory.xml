@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="action.AssessmentAt100Action"/>
+<fullyQualifiedTypeName name="utility.ReadJson"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.By.ByXPath"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="action.AssessmentAt100Action2_old"/>
+<fullyQualifiedTypeName name="module.AssessmentAtMcmaplus"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.support.ui.WebDriverWait"/>
+<fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+<fullyQualifiedTypeName name="action.AssessmentAtMcma3Action"/>
+<fullyQualifiedTypeName name="action.AssessmentAtMcmaPlusAction"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.interactions.Actions"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.WebElement"/>
+<fullyQualifiedTypeName name="utility.Log"/>
+<fullyQualifiedTypeName name="junit.framework.Assert"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="action.FlashInteractor"/>
+<fullyQualifiedTypeName name="org.junit.Assert"/>
+<fullyQualifiedTypeName name="action.FlashObjectWebDriver"/>
+<fullyQualifiedTypeName name="Flash.FlashObjectWebDriver"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.JavascriptExecutor"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="utility.AssessmentObj"/>
+<fullyQualifiedTypeName name="utility.UrlXcelPath"/>
+<fullyQualifiedTypeName name="module.AssessmentAt100"/>
+<fullyQualifiedTypeName name="allmcmaModules.allmcmaassessmentsmodule"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.google.gson.stream.JsonReader"/>
+</qualifiedTypeNameHistroy>

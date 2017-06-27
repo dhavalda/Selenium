@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="900433" started-at="2017-06-19T07:43:06Z" finished-at="2017-06-19T07:58:06Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="900433" started-at="2017-06-19T07:43:06Z" finished-at="2017-06-19T07:58:06Z">
+      <class name="main.StageClassSetup">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:main.StageClassSetup@28f67ac7]" name="setUp" is-config="true" duration-ms="7005" started-at="2017-06-19T13:13:06Z" finished-at="2017-06-19T13:13:13Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="assessmentlink()[pri:0, instance:main.StageClassSetup@28f67ac7]" name="assessmentlink" duration-ms="893407" started-at="2017-06-19T13:13:13Z" finished-at="2017-06-19T13:28:06Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- assessmentlink -->
+      </class> <!-- main.StageClassSetup -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
